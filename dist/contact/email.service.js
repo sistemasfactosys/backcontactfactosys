@@ -57,17 +57,16 @@ let EmailService = EmailService_1 = class EmailService {
     }
     createTransporter() {
         const host = this.configService.get('SMTP_HOST');
-        const port = parseInt(this.configService.get('SMTP_PORT'));
+        const port = parseInt(this.configService.get('SMTP_PORT'), 10);
         const secure = this.configService.get('SMTP_SECURE') === 'true';
         const user = this.configService.get('SMTP_USER');
         const pass = this.configService.get('SMTP_PASS');
-        console.log(host, port, secure, user, pass);
+        this.logger.log(`Inicializando transporter con host=${host}, port=${port}, secure=${secure}, user=${user}`);
         this.transporter = nodemailer.createTransport({
             host,
             port,
             secure,
             auth: { user, pass },
-            tls: { rejectUnauthorized: false },
         });
     }
     getServiceLabel(service) {
@@ -120,49 +119,21 @@ let EmailService = EmailService_1 = class EmailService {
               <span class="label">👤 Nombre:</span>
               <span class="value">${name}</span>
             </div>
-            
             <div class="field">
               <span class="label">📧 Email:</span>
               <span class="value">${email}</span>
             </div>
-            
-            ${phone
-            ? `
-            <div class="field">
-              <span class="label">📞 Teléfono:</span>
-              <span class="value">${phone}</span>
-            </div>
-            `
-            : ''}
-            
-            ${company
-            ? `
-            <div class="field">
-              <span class="label">🏢 Empresa:</span>
-              <span class="value">${company}</span>
-            </div>
-            `
-            : ''}
-            
+            ${phone ? `<div class="field"><span class="label">📞 Teléfono:</span><span class="value">${phone}</span></div>` : ''}
+            ${company ? `<div class="field"><span class="label">🏢 Empresa:</span><span class="value">${company}</span></div>` : ''}
             <div class="field">
               <span class="label">🛠️ Servicio:</span>
               <span class="value">${this.getServiceLabel(service)}</span>
             </div>
-            
-            ${budget
-            ? `
-            <div class="field">
-              <span class="label">💰 Presupuesto:</span>
-              <span class="value">${this.getBudgetLabel(budget)}</span>
-            </div>
-            `
-            : ''}
-            
+            ${budget ? `<div class="field"><span class="label">💰 Presupuesto:</span><span class="value">${this.getBudgetLabel(budget)}</span></div>` : ''}
             <div class="message-box">
               <div class="label">💬 Mensaje:</div>
               <p>${message.replace(/\n/g, '<br>')}</p>
             </div>
-            
             <div class="footer">
               <p>📅 Recibido el: ${new Date().toLocaleString('es-PE', {
             timeZone: 'America/Lima',
@@ -188,10 +159,10 @@ let EmailService = EmailService_1 = class EmailService {
         };
         try {
             await this.transporter.sendMail(mailOptions);
-            this.logger.log(`Email enviado correctamente para: ${email}`);
+            this.logger.log(`📧 Email enviado correctamente para: ${email}`);
         }
         catch (error) {
-            this.logger.error('Error enviando email:', error);
+            this.logger.error('❌ Error enviando email:', error);
             throw new Error('Error al enviar el email');
         }
     }
