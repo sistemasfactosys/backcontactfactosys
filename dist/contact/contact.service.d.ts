@@ -5,5 +5,8 @@ export declare class ContactService {
     private readonly logger;
     constructor(emailService: EmailService);
     processContactSubmission(contactData: ContactDto): Promise<void>;
-    testEmailConnection(): Promise<boolean>;
+    testEmailConnection(): Promise<{
+        success: boolean;
+        error?: string;
+    }>;
 }

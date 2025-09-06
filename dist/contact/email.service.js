@@ -170,11 +170,14 @@ let EmailService = EmailService_1 = class EmailService {
         try {
             await this.transporter.verify();
             this.logger.log('✅ Conexión SMTP verificada correctamente');
-            return true;
+            return { success: true };
         }
         catch (error) {
             this.logger.error('❌ Error en la conexión SMTP:', error);
-            return false;
+            return {
+                success: false,
+                error: error?.message || String(error),
+            };
         }
     }
 };

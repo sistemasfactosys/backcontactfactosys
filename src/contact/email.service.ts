@@ -134,14 +134,17 @@ export class EmailService {
     }
   }
 
-  async verifyConnection(): Promise<boolean> {
+  async verifyConnection(): Promise<{ success: boolean; error?: string }> {
     try {
       await this.transporter.verify();
       this.logger.log('✅ Conexión SMTP verificada correctamente');
-      return true;
-    } catch (error) {
+      return { success: true };
+    } catch (error: any) {
       this.logger.error('❌ Error en la conexión SMTP:', error);
-      return false;
+      return {
+        success: false,
+        error: error?.message || String(error),
+      };
     }
   }
 }

@@ -9,5 +9,8 @@ export declare class EmailService {
     private getServiceLabel;
     private getBudgetLabel;
     sendContactEmail(contactData: ContactDto): Promise<void>;
-    verifyConnection(): Promise<boolean>;
+    verifyConnection(): Promise<{
+        success: boolean;
+        error?: string;
+    }>;
 }

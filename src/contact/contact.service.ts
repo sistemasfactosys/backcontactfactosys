@@ -34,7 +34,7 @@ export class ContactService {
     }
   }
 
-  async testEmailConnection(): Promise<boolean> {
+  async testEmailConnection(): Promise<{ success: boolean; error?: string }> {
     return await this.emailService.verifyConnection();
   }
 }

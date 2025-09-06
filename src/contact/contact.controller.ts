@@ -122,12 +122,13 @@ export class ContactController {
   })
   async testEmailConnection() {
     try {
-      const isConnected = await this.contactService.testEmailConnection();
+      const result = await this.contactService.testEmailConnection();
       return {
-        success: isConnected,
-        message: isConnected
+        success: result.success,
+        message: result.success
           ? 'Conexión SMTP exitosa'
-          : 'Error en la conexión SMTP',
+          : result.error || 'Error en la conexión SMTP',
+        error: result.success ? undefined : result.error,
       };
     } catch (error) {
       throw new HttpException(

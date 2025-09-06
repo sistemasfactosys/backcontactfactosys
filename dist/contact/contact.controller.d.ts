@@ -12,5 +12,6 @@ export declare class ContactController {
     testEmailConnection(): Promise<{
         success: boolean;
         message: string;
+        error: string | undefined;
     }>;
 }
