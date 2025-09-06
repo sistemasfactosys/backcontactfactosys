@@ -17,10 +17,10 @@ async function bootstrap() {
         transform: true,
     }));
     const config = new swagger_1.DocumentBuilder()
-        .setTitle('Cats example')
-        .setDescription('The cats API description')
+        .setTitle('Contacto Factosys API')
+        .setDescription('API para gestionar solicitudes de contacto')
         .setVersion('1.0')
-        .addTag('cats')
+        .addTag('contacto')
         .build();
     const documentFactory = () => swagger_1.SwaggerModule.createDocument(app, config);
     swagger_1.SwaggerModule.setup('api', app, documentFactory);
